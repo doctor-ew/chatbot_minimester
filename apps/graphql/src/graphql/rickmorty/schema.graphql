@@ -1,0 +1,55 @@
+# src/graphql/rick-and-morty/schema.graphql
+
+type Character {
+    id: ID!
+    name: String!
+    status: String
+    species: String
+    type: String
+    gender: String
+    origin: Location
+    location: Location
+    image: String
+}
+
+type Episode {
+    id: ID!
+    name: String!
+}
+
+type Location {
+    id: ID
+    name: String
+}
+
+type Query {
+    charactersByName(name: String!): [Character]
+    episodesByIds(ids: [ID!]!): [Episode]
+}
+
+type RickAndMortyAssociation {
+    rick: Character!
+    morties: [Character!]!
+}
+
+type PocketMorty {
+    assetid: ID!
+    alias: String
+    dimensions: String
+    name: String
+    rawHtml: String # Optional: for storing the raw HTML content if needed
+}
+
+type PocketNPC {
+    alias: String
+    npc_name: String
+    rawHtml: String # Optional: similar to PocketMorty
+}
+
+extend type Query {
+    rickAndMortyAssociations: [RickAndMortyAssociation!]!
+    pocketMortys: [PocketMorty]
+    pocketMorty(assetid: ID!): PocketMorty
+    pocketNpcs: [PocketNPC]
+    pocketNpc(alias: String!): PocketNPC
+}
