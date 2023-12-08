@@ -1,5 +1,3 @@
-# /backend/Dockerfile
-
 # Use the official Node.js 18 image as a parent image
 FROM node:18.19.0
 
@@ -9,8 +7,8 @@ WORKDIR /usr/src/app
 # Install pnpm
 RUN npm install -g pnpm
 
-# Copy package.json and pnpm-lock.yaml files
-COPY package.json pnpm-lock.yaml ./
+# Copy package.json file
+COPY package.json ./
 
 # Install dependencies using pnpm
 RUN pnpm install --frozen-lockfile

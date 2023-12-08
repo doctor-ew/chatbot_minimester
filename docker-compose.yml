@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  graphql:
+    build:
+      context: ./apps/graphql
+      dockerfile: Dockerfile
+    ports:
+      - '4000:4000'
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=development
+    networks:
+      - mynetwork
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    networks:
+      - mynetwork
+
+  docs:
+    build:
+      context: ./apps/docs
+      dockerfile: Dockerfile
+    ports:
+      - '8080:80'  # Assuming the docs serve on port 80; change 8080 to your preferred host port
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge

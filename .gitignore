@@ -4,6 +4,8 @@
 node_modules
 .pnp
 .pnp.js
+apps/*/node_modules/
+.pnpm
 
 # Local env files
 .env
@@ -17,6 +19,7 @@ coverage
 
 # Turbo
 .turbo
+apps/*/.turbo/
 
 # Vercel
 .vercel
@@ -26,6 +29,8 @@ coverage
 out/
 build
 dist
+apps/*/dist/
+apps/*/.next/
 
 
 # Debug
