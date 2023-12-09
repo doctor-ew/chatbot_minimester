@@ -7,11 +7,15 @@ type PocketMorty {
     image: String
     evolution: [Int]
     evolutions: [Int]
-    rarity: Int
-    hp: Int
-    atk: Int
-    def: Int
-    spd: Int
+    rarity: String
+    basehp: Int
+    baseatk: Int
+    basedef: Int
+    basespd: Int
+    basexp: Int
+    stattotal: Int
+    dimensions: String
+    where_found: [String]
 }
 
 type Character {
@@ -23,7 +27,20 @@ type Character {
 }
 
 type Query {
-    pocketMorties: [PocketMorty]
+    pocketMorties(
+        type: [String],
+        rarity: [String],
+        basexp: Int,
+        basehp: Int,
+        baseatk: Int,
+        basedef: Int,
+        basespd: Int,
+        stattotal: Int,
+        dimensions: [String],
+        where_found: [String],
+        sortBy: String,
+        limit: Int
+    ): [PocketMorty]
     ricks: [Character]
     morties: [Character]
 }
