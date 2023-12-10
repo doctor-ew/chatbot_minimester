@@ -43,6 +43,7 @@ const fetchData = async (url: string) => {
 // Filtering utility for PocketMorties
 const filterPocketMorties = (data: any[], args: any) => {
     return data.filter(morty => {
+        //console.log('|-m-|', morty);
         return (!args.type || args.type.includes(morty.type)) &&
             (!args.rarity || args.rarity.includes(morty.rarity)) &&
             (args.basexp === undefined || morty.basexp === args.basexp) &&
@@ -58,28 +59,31 @@ const filterPocketMorties = (data: any[], args: any) => {
 
 
 // Utility function for sorting and limiting
-const sortAndLimit = (data: any, sortBy: string, limit: number) => {
-    let sortedData = data;
+
+const sortData = (data: any[], sortBy: string) => {
     if (sortBy) {
-        sortedData = [...data].sort((a, b) => b[sortBy] - a[sortBy]);
+        return [...data].sort((a, b) => b[sortBy] - a[sortBy]);
     }
-    if (typeof limit === 'number' && limit >= 0) {
-        sortedData = sortedData.slice(0, limit);
-    }
-    return sortedData;
+    return data;
 };
 
-// Update the resolvers
 const resolvers = {
     Query: {
         pocketMorties: async (_: any, args: any) => {
             const data = await fetchData('https://www.doctorew.com/shuttlebay/cleaned_pocket_morties.json');
             let filteredData = filterPocketMorties(data, args);
 
-            // Use the provided sortBy and limit arguments
-            return sortAndLimit(filteredData, args.sortBy, args.limit);
-        },
+            // Sort the filtered data
+            filteredData = sortData(filteredData, args.sortBy);
 
+            // Apply offset and limit for pagination
+            const offset = args.offset || 0;
+            const limit = (typeof args.limit === 'number' && args.limit >= 0) ? parseInt(args.limit) : filteredData.length;
+
+            // Adjust the slicing indices if necessary
+            const endIndex = Math.min(offset + limit, filteredData.length);
+            return filteredData.slice(offset, endIndex);
+        },
 
         ricks: async (): Promise<Character[]> => {
             return fetchData('https://rickandmortyapi.com/api/character/?name=Rick');

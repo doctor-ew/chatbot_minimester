@@ -39,7 +39,8 @@ type Query {
         dimensions: [String],
         where_found: [String],
         sortBy: String,
-        limit: Int
+        limit: Int,
+        offset: Int
     ): [PocketMorty]
     ricks: [Character]
     morties: [Character]
