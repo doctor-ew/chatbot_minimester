@@ -26,8 +26,25 @@ type Character {
     image: String
 }
 
+type PocketMortyEdge {
+    node: PocketMorty
+    cursor: String
+}
+
+type PocketMortyConnection {
+    edges: [PocketMortyEdge]
+    pageInfo: PageInfo
+}
+
+type PageInfo {
+    hasNextPage: Boolean
+    endCursor: String
+}
+
 type Query {
     pocketMorties(
+        first: Int,
+        after: String,
         type: [String],
         rarity: [String],
         basexp: Int,
@@ -38,9 +55,8 @@ type Query {
         stattotal: Int,
         dimensions: [String],
         where_found: [String],
-        sortBy: String,
-        limit: Int
-    ): [PocketMorty]
+        sortBy: String
+    ): PocketMortyConnection
     ricks: [Character]
     morties: [Character]
 }

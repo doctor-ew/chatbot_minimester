@@ -58,15 +58,11 @@ const filterPocketMorties = (data: any[], args: any) => {
 
 
 // Utility function for sorting and limiting
-const sortAndLimit = (data: any, sortBy: string, limit: number) => {
-    let sortedData = data;
+const sortData = (data: any[], sortBy: string) => {
     if (sortBy) {
-        sortedData = [...data].sort((a, b) => b[sortBy] - a[sortBy]);
+        return [...data].sort((a, b) => b[sortBy] - a[sortBy]);
     }
-    if (typeof limit === 'number' && limit >= 0) {
-        sortedData = sortedData.slice(0, limit);
-    }
-    return sortedData;
+    return data;
 };
 
 // Update the resolvers
@@ -76,8 +72,27 @@ const resolvers = {
             const data = await fetchData('https://www.doctorew.com/shuttlebay/cleaned_pocket_morties.json');
             let filteredData = filterPocketMorties(data, args);
 
-            // Use the provided sortBy and limit arguments
-            return sortAndLimit(filteredData, args.sortBy, args.limit);
+            // Sort the filtered data
+            filteredData = sortData(filteredData, args.sortBy);
+
+            // Create edges with cursors
+            const edges = filteredData.map(morty => ({
+                node: morty,
+                cursor: `cursor-${morty.id}` // Simple cursor example
+            }));
+
+            // Apply cursor-based pagination
+            const afterIndex = args.after ? edges.findIndex(edge => edge.cursor === args.after) : -1;
+            const paginatedEdges = edges.slice(afterIndex + 1, afterIndex + 1 + args.first);
+
+            return {
+                edges: paginatedEdges,
+                pageInfo: {
+                    hasNextPage: afterIndex + 1 + (args.first || filteredData.length) < edges.length,
+                    endCursor: paginatedEdges.length ? paginatedEdges[paginatedEdges.length - 1].cursor : null
+                }
+            };
+
         },
 
 
