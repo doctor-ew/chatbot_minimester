@@ -12,6 +12,7 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "apollo-server-testing": "^2.25.3",
     "prettier": "^3.1.0",
     "turbo": "^1.11.0"
   },

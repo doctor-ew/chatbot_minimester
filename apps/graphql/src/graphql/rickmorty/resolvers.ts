@@ -41,7 +41,7 @@ const fetchData = async (url: string) => {
 };
 
 // Filtering utility for PocketMorties
-const filterPocketMorties = (data: any[], args: any) => {
+export const filterPocketMorties = (data: any[], args: any) => {
     return data.filter(morty => {
         //console.log('|-m-|', morty);
         return (!args.type || args.type.includes(morty.type)) &&
