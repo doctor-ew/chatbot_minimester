@@ -1,4 +1,4 @@
-//src/server.ts
+// /apps/graphql/src/server.ts
 
 import express, {Express, Request, Response, NextFunction} from 'express';
 

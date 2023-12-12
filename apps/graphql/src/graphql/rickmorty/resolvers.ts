@@ -1,3 +1,5 @@
+// apps/graphql/src/graphql/rickmorty/resolvers.ts
+
 import axios from 'axios';
 
 // Interfaces for TypeScript type safety
