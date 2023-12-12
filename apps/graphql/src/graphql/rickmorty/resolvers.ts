@@ -14,7 +14,7 @@ interface PocketMorty {
     id: number;
     name: string;
     type: string;
-    image: string;
+    assetid: string;
     evolution: number[];
     evolutions: number[];
     rarity: string;
