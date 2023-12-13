@@ -2,24 +2,53 @@
 
 'use client';
 
-import React from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {useQuery} from '@apollo/client';
-import Image from 'next/image'; // Don't forget to import Image from 'next/image'
-import {GET_POCKET_MORTIES_QUERY} from '../lib/graphqlQueries';
 import {apolloClient} from '../lib/apolloClient';
 import Card from '../components/Card';
-import { PocketMortyConnection } from '../lib/types';
+import {GET_POCKET_MORTIES_QUERY} from '../lib/graphqlQueries';
+import {PocketMortyConnection} from '../lib/types';
 import "./globals.css";
 
-
-
 const RickAndMortyPage: React.FC = () => {
-    const {loading, error, data} = useQuery<PocketMortyConnection>(GET_POCKET_MORTIES_QUERY, {
-        variables: {first: 9, after: null, type: null, sortBy: null},
-        client: apolloClient
+    const [morties, setMorties] = useState([]);
+    const [endCursor, setEndCursor] = useState(null);
+    const {loading, error, data, fetchMore} = useQuery<PocketMortyConnection>(GET_POCKET_MORTIES_QUERY, {
+        variables: {first: 9, after: null},
+        client: apolloClient,
+        onCompleted: data => {
+            console.log('|-o-| onCompleted', data);
+            setMorties(data?.pocketMorties?.edges);
+            setEndCursor(data?.pocketMorties?.pageInfo?.endCursor);
+        }
     });
 
-    if (loading) return <p>Loading...</p>;
+    const loadMoreMorties = useCallback(() => {
+        if (!endCursor || loading) return;
+
+        fetchMore({
+            variables: {
+                after: endCursor,
+            },
+        }).then(fetchMoreResult => {
+            setMorties(prevMorties => [...prevMorties, ...fetchMoreResult.data.pocketMorties.edges]);
+            setEndCursor(fetchMoreResult.data.pocketMorties.pageInfo.endCursor);
+        });
+    }, [endCursor, loading, fetchMore]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            // Check if the user is near the bottom of the page
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+                loadMoreMorties();
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [loadMoreMorties]);
+
+    if (loading && !data) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
 
     return (
@@ -43,6 +72,7 @@ const RickAndMortyPage: React.FC = () => {
                         />
                     ))}
                 </div>
+                {loading && <p>Loading more...</p>}
             </div>
         </main>
     );
