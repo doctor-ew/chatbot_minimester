@@ -1,3 +1,5 @@
+// apps/graphql/src/graphql/rickmorty/resolvers.ts
+
 import axios from 'axios';
 
 // Interfaces for TypeScript type safety
@@ -14,7 +16,7 @@ interface PocketMorty {
     id: number;
     name: string;
     type: string;
-    image: string;
+    assetid: string;
     evolution: number[];
     evolutions: number[];
     rarity: string;

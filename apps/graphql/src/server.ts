@@ -1,4 +1,4 @@
-//src/server.ts
+// /apps/graphql/src/server.ts
 
 import express, {Express, Request, Response, NextFunction} from 'express';
 
@@ -22,6 +22,58 @@ const redisCache = new RedisCache({
     port: 6379
 });
 */
+
+async function fetchMorties() {
+    const response = await fetch('http://localhost:4000/rickmorty', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            query: `query GetPocketMorties($first: Int, $after: String, $type: [String], $sortBy: String) {
+        pocketMorties(first: $first, after: $after, type: $type, sortBy: $sortBy) {
+          edges {
+            node {
+              id
+              name
+              type
+              assetid
+              evolution
+              evolutions
+              rarity
+              basehp
+              baseatk
+              basedef
+              basespd
+              basexp
+              stattotal
+              dimensions
+              where_found
+            }
+            cursor
+          }
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
+        }
+      }`,
+            variables: {
+                first: 10,
+                after: null, // Adjust this as needed for pagination
+                type: null, // Adjust this based on user selection
+                sortBy: null, // Adjust this based on user selection
+            },
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+
+    return response.json();
+}
+
 
 // Create ApolloServer instances for both endpoints
 const rickMortyServer = new ApolloServer({
