@@ -1,25 +1,25 @@
-// /apps/web/app/page.tsx
-
 'use client';
 
-import React, {useState, useEffect, useCallback} from 'react';
-import {useQuery} from '@apollo/client';
+import React, { useState, useEffect, useCallback } from 'react';
 import {apolloClient} from '../lib/apolloClient';
+import { useQuery } from '@apollo/client';
 import Card from '../components/Card';
-import {GET_POCKET_MORTIES_QUERY} from '../lib/graphqlQueries';
-import {PocketMortyConnection} from '../lib/types';
+import { GET_POCKET_MORTIES_QUERY } from '../lib/graphqlQueries';
+import { PocketMortyConnection, PocketMortyEdge } from '../lib/types';
 import "./globals.css";
 
-const RickAndMortyPage: React.FC = () => {
-    const [morties, setMorties] = useState([]);
-    const [endCursor, setEndCursor] = useState(null);
-    const {loading, error, data, fetchMore} = useQuery<PocketMortyConnection>(GET_POCKET_MORTIES_QUERY, {
-        variables: {first: 9, after: null},
+const RickAndMortyPage = () => {
+    const [morties, setMorties] = useState<PocketMortyEdge[]>([]);
+    const [endCursor, setEndCursor] = useState<string | null>(null);
+    const { loading, error, data, fetchMore } = useQuery<PocketMortyConnection>(GET_POCKET_MORTIES_QUERY, {
+        variables: { first: 9, after: null },
         client: apolloClient,
-        onCompleted: data => {
-            console.log('|-o-| onCompleted', data);
-            setMorties(data?.pocketMorties?.edges);
-            setEndCursor(data?.pocketMorties?.pageInfo?.endCursor);
+        onCompleted: (data:any) => {
+            if (data?.pocketMorties?.edges) {
+                setMorties(data.pocketMorties.edges);
+                setEndCursor(data.pocketMorties.pageInfo.endCursor);
+            }
+
         }
     });
 
@@ -27,23 +27,21 @@ const RickAndMortyPage: React.FC = () => {
         if (!endCursor || loading) return;
 
         fetchMore({
-            variables: {
-                after: endCursor,
-            },
-        }).then(fetchMoreResult => {
-            console.log('|-o-| fetchMoreResult', fetchMoreResult);
-            setMorties(prevMorties => [
-                ...prevMorties,
-                ...fetchMoreResult.data.pocketMorties.edges
-            ]);
-            setEndCursor(fetchMoreResult.data.pocketMorties.pageInfo.endCursor);
+            variables: { after: endCursor },
+        }).then((fetchMoreResult: any) => {
+            const newMorties = fetchMoreResult.data.pocketMorties as PocketMortyConnection;
+            if (newMorties && newMorties.edges) {
+                setMorties(prevMorties => [
+                    ...prevMorties,
+                    ...newMorties.edges
+                ]);
+                setEndCursor(newMorties.pageInfo.endCursor);
+            }
         });
     }, [endCursor, loading, fetchMore]);
 
-
     useEffect(() => {
         const handleScroll = () => {
-            // Check if the user is near the bottom of the page
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
                 loadMoreMorties();
             }
@@ -58,11 +56,10 @@ const RickAndMortyPage: React.FC = () => {
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <div className=" mx-auto p-4">
+            <div className="mx-auto p-4">
                 <h1 className="text-2xl font-bold mb-6">Pocket Morties</h1>
-
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {morties.map(({node}) => (
+                    {morties.map(({ node }) => (
                         <Card
                             className="bg-white rounded-lg shadow-md p-4"
                             key={node.id}

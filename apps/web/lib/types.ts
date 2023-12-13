@@ -27,6 +27,7 @@ export interface PageInfo {
 }
 
 export interface PocketMortyConnection {
+    pocketMorties: ((prevState: PocketMortyEdge[]) => PocketMortyEdge[]) | PocketMortyEdge[];
     edges: PocketMortyEdge[];
     pageInfo: PageInfo;
 }
