@@ -1,5 +1,3 @@
-// /apps/web/components/Card.tsx
-
 import React from 'react';
 import Image from 'next/image';
 
@@ -12,13 +10,14 @@ interface CardProps {
     type: string;
     basehp: number;
     baseatk: number;
-
 }
 
-const Card: React.FC<CardProps> = ({ className, title, href, imageSrc, imageAlt, type, basehp, baseatk }) => (
+const Card = ({
+                  className, title, href, imageSrc, imageAlt, type, basehp, baseatk
+              }: CardProps) => (
     <div className={`bg-gray-200 rounded-lg overflow-hidden ${className}`}>
         <a href={href}>
-            <div className="relative h-64"> {/* Adjust height as needed */}
+            <div className="relative h-64">
                 <Image src={imageSrc} alt={imageAlt} width={90} height={195}/>
             </div>
             <h2 className="text-lg font-bold">{title}</h2>
@@ -29,6 +28,5 @@ const Card: React.FC<CardProps> = ({ className, title, href, imageSrc, imageAlt,
         </a>
     </div>
 );
-
 
 export default Card;
