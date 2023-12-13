@@ -3,20 +3,30 @@ import Image from 'next/image';
 
 interface CardProps {
     className: string;
-    key: string;
     title: string;
     href: string;
     imageSrc: string;
     imageAlt: string;
+    type: string;
+    basehp: number;
+    baseatk: number;
+
 }
 
-const Card: React.FC<CardProps> = ({ className, key, title, href, imageSrc, imageAlt }) => (
-    <div className={className} key={key}>
-        <h2>{title}</h2>
+const Card: React.FC<CardProps> = ({ className, title, href, imageSrc, imageAlt, type, basehp, baseatk }) => (
+    <div className={`bg-gray-200 rounded-lg overflow-hidden ${className}`}>
         <a href={href}>
-            <Image src={imageSrc} alt={imageAlt} width={100} height={100} />
+            <div className="relative h-64"> {/* Adjust height as needed */}
+                <Image src={imageSrc} alt={imageAlt} width={90} height={195}/>
+            </div>
+            <h2 className="text-lg font-bold">{title}</h2>
+            <div>Type: {type}</div>
+            <div>HP: {basehp}</div>
+            <div>Attack: {baseatk}</div>
+            {/* Additional details */}
         </a>
     </div>
 );
+
 
 export default Card;
