@@ -31,10 +31,15 @@ const RickAndMortyPage: React.FC = () => {
                 after: endCursor,
             },
         }).then(fetchMoreResult => {
-            setMorties(prevMorties => [...prevMorties, ...fetchMoreResult.data.pocketMorties.edges]);
+            console.log('|-o-| fetchMoreResult', fetchMoreResult);
+            setMorties(prevMorties => [
+                ...prevMorties,
+                ...fetchMoreResult.data.pocketMorties.edges
+            ]);
             setEndCursor(fetchMoreResult.data.pocketMorties.pageInfo.endCursor);
         });
     }, [endCursor, loading, fetchMore]);
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -57,7 +62,7 @@ const RickAndMortyPage: React.FC = () => {
                 <h1 className="text-2xl font-bold mb-6">Pocket Morties</h1>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {data?.pocketMorties.edges.map(({node}) => (
+                    {morties.map(({node}) => (
                         <Card
                             className="bg-white rounded-lg shadow-md p-4"
                             key={node.id}
