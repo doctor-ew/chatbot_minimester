@@ -58,6 +58,7 @@ type Query {
         where_found: [String],
         sortBy: String
     ): PocketMortyConnection
+    pocketMorty(id: Int!): PocketMorty
     ricks: [Character]
     morties: [Character]
 }

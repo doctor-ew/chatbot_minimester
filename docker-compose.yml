@@ -25,7 +25,7 @@ services:
 
   docs:
     build:
-      context: ./apps/docs
+      context: ./apps/chat
       dockerfile: Dockerfile
     ports:
       - '8080:80'  # Assuming the docs serve on port 80; change 8080 to your preferred host port
