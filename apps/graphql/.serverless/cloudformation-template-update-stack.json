@@ -208,7 +208,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/minimester-graph-lambda/dev/1702589232528-2023-12-14T21:27:12.528Z/minimester-graph-lambda.zip"
+          "S3Key": "serverless/minimester-graph-lambda/dev/1702592609013-2023-12-14T22:23:29.013Z/minimester-graph-lambda.zip"
         },
         "Handler": "s_myFunction.handler",
         "Runtime": "nodejs18.x",
@@ -226,14 +226,14 @@
         "MyFunctionLogGroup"
       ]
     },
-    "MyFunctionLambdaVersion7RPcR0TkwQchfC9b9Oj8WCA4l1ebrqeJeGGgRA5U": {
+    "MyFunctionLambdaVersionLI2jFVZ4gz9KtCUBWzUqrhIPMmET8aS5C0O3JN2g": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "MyFunctionLambdaFunction"
         },
-        "CodeSha256": "gnVgGE+KWp/nydMBT1AVDawYjS9hMhPGVh+NDt6oCgw="
+        "CodeSha256": "qluzJwnK/fGaIbMNWA6UQAXi1RzJ92A1NUquvVvOMTQ="
       }
     },
     "ApiGatewayRestApi": {
@@ -309,7 +309,7 @@
         "MyFunctionLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1702589180340": {
+    "ApiGatewayDeployment1702592589944": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -467,7 +467,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/minimester-graph-lambda/dev/1702589232528-2023-12-14T21:27:12.528Z/custom-resources.zip"
+          "S3Key": "serverless/minimester-graph-lambda/dev/1702592609013-2023-12-14T22:23:29.013Z/custom-resources.zip"
         },
         "FunctionName": "minimester-graph-lambda-dev-custom-resource-apigw-cw-role",
         "Handler": "api-gateway-cloud-watch-role/handler.handler",
@@ -509,7 +509,7 @@
     "MyFunctionLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "MyFunctionLambdaVersion7RPcR0TkwQchfC9b9Oj8WCA4l1ebrqeJeGGgRA5U"
+        "Ref": "MyFunctionLambdaVersionLI2jFVZ4gz9KtCUBWzUqrhIPMmET8aS5C0O3JN2g"
       },
       "Export": {
         "Name": "sls-minimester-graph-lambda-dev-MyFunctionLambdaFunctionQualifiedArn"
