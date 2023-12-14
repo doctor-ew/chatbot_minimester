@@ -1,0 +1,27 @@
+org: doctorew
+app: minimester-graphql
+service: minimester-graph-lambda
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  stage: dev # default stage
+
+functions:
+  myFunction:
+    handler: dist/server-lambda.handler
+    events:
+      - http:
+          path: /rickmorty
+          method: post
+
+plugins:
+  - serverless-offline
+
+
+custom:
+  serverless-offline:
+    httpPort: 3005
+
+

@@ -3,15 +3,6 @@
 import axios from 'axios';
 
 // Interfaces for TypeScript type safety
-interface Character {
-    id: string;
-    name: string;
-    status: string;
-    species: string;
-    image: string;
-    // ... other fields that characters contain
-}
-
 interface PocketMorty {
     id: number;
     name: string;
@@ -73,7 +64,7 @@ const resolvers = {
         pocketMorties: async (_: any, args: any) => {
             const data = await fetchData('https://www.doctorew.com/shuttlebay/cleaned_pocket_morties.json');
             let filteredData = filterPocketMorties(data, args);
-
+            console.log('|-o-| filteredData', filteredData);
             // Sort the filtered data
             filteredData = sortData(filteredData, args.sortBy);
 
@@ -97,13 +88,6 @@ const resolvers = {
 
         },
 
-
-        ricks: async (): Promise<Character[]> => {
-            return fetchData('https://rickandmortyapi.com/api/character/?name=Rick');
-        },
-        morties: async (): Promise<Character[]> => {
-            return fetchData('https://rickandmortyapi.com/api/character/?name=Morty');
-        },
     },
 };
 

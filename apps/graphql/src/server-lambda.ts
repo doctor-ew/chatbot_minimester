@@ -1,28 +1,30 @@
-import { ApolloServer, gql } from 'apollo-server-lambda';
+import { ApolloServer } from 'apollo-server-lambda';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import { APIGatewayProxyEvent, Context, Callback } from 'aws-lambda';
 import path from 'path';
 import { readFileSync } from 'fs';
-import rickMortyResolvers from './graphql/rickmorty/resolvers';
+import pocketMortyResolvers from './graphql/rickmorty/resolvers';
 
 // Load type definitions
-const rickMortyTypeDefs = gql(readFileSync(path.join(__dirname, 'graphql/rickmorty/schema.graphql'), 'utf-8'));
+console.log('Loading type definitions from ...',__dirname);
+const pocketMortyTypeDefs = readFileSync(path.join(__dirname, 'graphql/rickmorty/schema.graphql'), 'utf-8');
 
-// Create ApolloServer instance
-const rickMortyServer = new ApolloServer({
-    typeDefs: rickMortyTypeDefs,
-    resolvers: rickMortyResolvers,
+// Create the executable schema
+const schema = makeExecutableSchema({
+    typeDefs: pocketMortyTypeDefs,
+    resolvers: pocketMortyResolvers,
+});
+
+// Create ApolloServer instance with the executable schema
+const pocketMortyServer = new ApolloServer({
+    schema,
     introspection: true,
 });
 
-const rickMortyHandler = rickMortyServer.createHandler();
+const pocketMortyHandler = pocketMortyServer.createHandler();
 
 // Lambda handler
 exports.handler = async (event: APIGatewayProxyEvent, context: Context, callback: Callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
-    return rickMortyHandler(event, context, callback);
-    // Default response for unsupported paths
-    return {
-        statusCode: 404,
-        body: JSON.stringify({ message: 'Not Found' }),
-    };
+    return pocketMortyHandler(event, context, callback);
 };
