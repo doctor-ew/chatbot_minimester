@@ -1,3 +1,5 @@
+// apps/web/app/morty/[id]/page.tsx
+
 'use client';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -7,8 +9,7 @@ import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
 
 // Initialize Apollo Client
 const apolloClient = new ApolloClient({
-    ssrMode: typeof window === 'undefined',
-    link: new HttpLink({ uri: 'http://localhost:4000/graphql' }),
+    link: new HttpLink({ uri: 'https://mms-graph.doctorew.com/rickmorty' }), // Use the correct endpoint
     cache: new InMemoryCache(),
 });
 
