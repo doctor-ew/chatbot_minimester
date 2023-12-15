@@ -3,15 +3,6 @@
 import axios from 'axios';
 
 // Interfaces for TypeScript type safety
-interface Character {
-    id: string;
-    name: string;
-    status: string;
-    species: string;
-    image: string;
-    // ... other fields that characters contain
-}
-
 interface PocketMorty {
     id: number;
     name: string;
@@ -70,10 +61,19 @@ const sortData = (data: any[], sortBy: string) => {
 // Update the resolvers
 const resolvers = {
     Query: {
+        pocketMorty: async (_: any, args: { id: number }) => {
+            const data = await fetchData('https://www.doctorew.com/shuttlebay/cleaned_pocket_morties.json');
+
+            // Find the specific Morty by ID
+            const morty = data.find((morty: PocketMorty) => morty.id === args.id);
+            console.log('|-o-| morty', morty);
+            return morty || null; // Return the found Morty or null if not found
+        },
+
         pocketMorties: async (_: any, args: any) => {
             const data = await fetchData('https://www.doctorew.com/shuttlebay/cleaned_pocket_morties.json');
             let filteredData = filterPocketMorties(data, args);
-
+            console.log('|-ofo-| filteredData', filteredData);
             // Sort the filtered data
             filteredData = sortData(filteredData, args.sortBy);
 
@@ -97,13 +97,6 @@ const resolvers = {
 
         },
 
-
-        ricks: async (): Promise<Character[]> => {
-            return fetchData('https://rickandmortyapi.com/api/character/?name=Rick');
-        },
-        morties: async (): Promise<Character[]> => {
-            return fetchData('https://rickandmortyapi.com/api/character/?name=Morty');
-        },
     },
 };
 

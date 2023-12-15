@@ -18,14 +18,6 @@ type PocketMorty {
     where_found: [String]
 }
 
-type Character {
-    id: Int
-    name: String
-    status: String
-    species: String
-    image: String
-}
-
 type PocketMortyEdge {
     node: PocketMorty
     cursor: String
@@ -58,6 +50,5 @@ type Query {
         where_found: [String],
         sortBy: String
     ): PocketMortyConnection
-    ricks: [Character]
-    morties: [Character]
+    pocketMorty(id: Int!): PocketMorty
 }

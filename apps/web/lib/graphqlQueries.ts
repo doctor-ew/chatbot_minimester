@@ -29,5 +29,26 @@ export const GET_POCKET_MORTIES_QUERY = gql`
                 endCursor
             }
         }
-    }
+    },`
+export const GET_POCKET_MORTY_QUERY = gql`
+    query GetPocketMorty($id: Int!) {
+        pocketMorty(id: $id) {
+            id
+            name
+            type
+            assetid
+            evolution
+            evolutions
+            rarity
+            basehp
+            baseatk
+            basedef
+            basespd
+            basexp
+            stattotal
+            dimensions
+            where_found
+        }
+    },
+
 `;

@@ -1,42 +1,57 @@
 import { ApolloServer } from 'apollo-server-lambda';
-import { APIGatewayProxyEvent, Context, Callback } from 'aws-lambda';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import path from 'path';
 import { readFileSync } from 'fs';
-import rickMortyResolvers from './graphql/rickmorty/resolvers';
-import travelDataResolvers from './graphql/traveldata/resolvers';
+import pocketMortyResolvers from './graphql/rickmorty/resolvers';
 
-// Load type definitions for both endpoints
-const rickMortyTypeDefs = readFileSync(path.join(__dirname, 'graphql/rickmorty/schema.graphql'), 'utf-8');
-const travelDataTypeDefs = readFileSync(path.join(__dirname, 'graphql/traveldata/schema.graphql'), 'utf-8');
+// Load type definitions
+const pocketMortyTypeDefs = readFileSync(path.join(__dirname, 'graphql/rickmorty/schema.graphql'), 'utf-8');
 
-// Create ApolloServer instances for both endpoints
-const rickMortyServer = new ApolloServer({
-    typeDefs: rickMortyTypeDefs,
-    resolvers: rickMortyResolvers,
+// Create the executable schema
+const schema = makeExecutableSchema({
+    typeDefs: pocketMortyTypeDefs,
+    resolvers: pocketMortyResolvers,
 });
 
-const travelDataServer = new ApolloServer({
-    typeDefs: travelDataTypeDefs,
-    resolvers: travelDataResolvers,
-    context: ({ event }) => ({
-        // Add any context setup here when you build out this endpoint
-    }),
+// Create ApolloServer instance with the executable schema
+const server = new ApolloServer({
+    schema,
+    introspection: true,
 });
-
-const rickMortyHandler = rickMortyServer.createHandler();
-const travelDataHandler = travelDataServer.createHandler();
 
 // Lambda handler
-exports.handler = async (event: APIGatewayProxyEvent, context: Context, callback: Callback) => {
-    if (event.path === '/rickmorty') {
-        return rickMortyHandler(event, context, callback);
-    } else if (event.path === '/traveldata') {
-        return travelDataHandler(event, context, callback);
+exports.handler = (event:any, context:any, callback:any) => {
+    const origin = event.headers.origin;
+    let headers = {};
+
+    // Check if the origin is a subdomain of doctorew.com or is local.doctorew.com
+    if (/https:\/\/.*\.doctorew\.com$/.test(origin) || origin === 'http://local.doctorew.com:3000') {
+        headers = {
+            'Access-Control-Allow-Origin': origin,
+            'Access-Control-Allow-Credentials': true,
+            // Add other headers as needed
+        };
     }
 
-    // Default response for unsupported paths
-    return {
-        statusCode: 404,
-        body: JSON.stringify({ message: 'Not Found' }),
-    };
+    // Apollo Server handler
+    const handler = server.createHandler({
+        expressGetMiddlewareOptions: {
+            cors: {
+                origin: true,
+                credentials: true,
+            },
+        },
+    });
+
+    // Check for OPTIONS request
+    if (event.httpMethod === 'OPTIONS') {
+        return callback(null, {
+            statusCode: 200,
+            headers,
+            body: '',
+        });
+    }
+
+    // Pass the request to Apollo Server
+    return handler(event, context, callback);
 };

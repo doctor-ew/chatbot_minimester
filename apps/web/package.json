@@ -30,6 +30,8 @@
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "eslint": "^8.55.0",
+    "serverless-domain-manager": "^7.3.1",
+    "serverless-offline": "^13.3.0",
     "typescript": "^5.3.3"
   }
 }
