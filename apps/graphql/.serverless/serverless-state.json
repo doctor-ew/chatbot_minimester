@@ -220,7 +220,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/minimester-graph-lambda/dev/1702592609013-2023-12-14T22:23:29.013Z/minimester-graph-lambda.zip"
+                "S3Key": "serverless/minimester-graph-lambda/dev/1702673319837-2023-12-15T20:48:39.837Z/minimester-graph-lambda.zip"
               },
               "Handler": "s_myFunction.handler",
               "Runtime": "nodejs18.x",
@@ -238,14 +238,14 @@
               "MyFunctionLogGroup"
             ]
           },
-          "MyFunctionLambdaVersionLI2jFVZ4gz9KtCUBWzUqrhIPMmET8aS5C0O3JN2g": {
+          "MyFunctionLambdaVersionJSbJ17gdYWJrjvukNMwnpp4jMpC5qy0bYJHVWCS5E": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "MyFunctionLambdaFunction"
               },
-              "CodeSha256": "qluzJwnK/fGaIbMNWA6UQAXi1RzJ92A1NUquvVvOMTQ="
+              "CodeSha256": "dwCU6LFFIP9FMq+Zm7nO46t83qvbQY5XRnNpVhimKj8="
             }
           },
           "ApiGatewayRestApi": {
@@ -321,7 +321,7 @@
               "MyFunctionLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1702592589944": {
+          "ApiGatewayDeployment1702673304548": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -479,7 +479,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/minimester-graph-lambda/dev/1702592609013-2023-12-14T22:23:29.013Z/custom-resources.zip"
+                "S3Key": "serverless/minimester-graph-lambda/dev/1702673319837-2023-12-15T20:48:39.837Z/custom-resources.zip"
               },
               "FunctionName": "minimester-graph-lambda-dev-custom-resource-apigw-cw-role",
               "Handler": "api-gateway-cloud-watch-role/handler.handler",
@@ -521,7 +521,7 @@
           "MyFunctionLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "MyFunctionLambdaVersionLI2jFVZ4gz9KtCUBWzUqrhIPMmET8aS5C0O3JN2g"
+              "Ref": "MyFunctionLambdaVersionJSbJ17gdYWJrjvukNMwnpp4jMpC5qy0bYJHVWCS5E"
             },
             "Export": {
               "Name": "sls-minimester-graph-lambda-dev-MyFunctionLambdaFunctionQualifiedArn"
@@ -681,7 +681,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "MyFunctionLambdaVersionLI2jFVZ4gz9KtCUBWzUqrhIPMmET8aS5C0O3JN2g"
+        "versionLogicalId": "MyFunctionLambdaVersionJSbJ17gdYWJrjvukNMwnpp4jMpC5qy0bYJHVWCS5E"
       }
     },
     "configValidationMode": "warn",
@@ -713,7 +713,7 @@
     "artifact": "/Users/doctorew/shuttlebay/doctorews-laboratory/chatbot_minimester/apps/graphql/.serverless/minimester-graph-lambda.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/minimester-graph-lambda/dev/1702592609013-2023-12-14T22:23:29.013Z",
+    "artifactDirectoryName": "serverless/minimester-graph-lambda/dev/1702673319837-2023-12-15T20:48:39.837Z",
     "artifact": "minimester-graph-lambda.zip"
   }
 }
