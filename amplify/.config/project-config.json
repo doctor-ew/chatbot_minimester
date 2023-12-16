@@ -1,0 +1,17 @@
+{
+  "projectName": "chatbotminimester",
+  "version": "3.1",
+  "frontend": "javascript", // JavaScript is correct even if you're using TypeScript
+  "javascript": {
+    "framework": "none", // Next.js is not explicitly recognized, so use 'none'
+    "config": {
+      "SourceDir": "apps/web", // Point to the 'web' directory
+      "DistributionDir": "apps/web/.next", // Next.js's build output directory
+      "BuildCommand": "npx turbo run build --filter=web", // Build only the web app
+      "StartCommand": "npx turbo run start --filter=web" // Start only the web app
+    }
+  },
+  "providers": [
+    "awscloudformation"
+  ]
+}
