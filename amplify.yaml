@@ -19,18 +19,23 @@ applications:
             - echo "|-o-| Listing Web App Directory |-o-|"
             - ls -la
             - echo "|-o-| Installing Dependencies |-o-|"
-            - npx pnpm install
+            #- npx pnpm install
+            - yarn install
         build:
           commands:
             - echo "|-o-| Starting Build Phase |-o-|"
-            - npx turbo run build --filter=web
+            #- npx turbo run build --filter=web
+            - yarn build
             - echo "|-o-| Build Command Completed |-o-|"
             - echo "|-o-| Current Directory After Build |-o-|"
             - pwd
             - echo "|-o-| Listing Web App Directory After Build |-o-|"
             - ls -la
             - echo "|-o-| Listing Build Output Directory |-o-|"
-            - ls -la .next
+            - echo "Listing contents of the current directory after build:"
+            - ls -la
+            - echo "Checking if .next directory exists in the current directory:"
+            - if [ -d ".next" ]; then echo ".next directory exists"; else echo ".next directory does not exist"; fi
       artifacts:
         baseDirectory: apps/web/.next
         files:
