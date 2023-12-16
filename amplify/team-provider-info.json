@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-chatbotminimester-dev-160933-authRole",
+      "UnauthRoleArn": "arn:aws:iam::432230020714:role/amplify-chatbotminimester-dev-160933-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::432230020714:role/amplify-chatbotminimester-dev-160933-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-chatbotminimester-dev-160933-deployment",
+      "UnauthRoleName": "amplify-chatbotminimester-dev-160933-unauthRole",
+      "StackName": "amplify-chatbotminimester-dev-160933",
+      "StackId": "arn:aws:cloudformation:us-east-1:432230020714:stack/amplify-chatbotminimester-dev-160933/3f18df40-9b8e-11ee-97dc-0ebe8d2855a7",
+      "AmplifyAppId": "dg80qqp6xjt7t"
+    }
+  }
+}
