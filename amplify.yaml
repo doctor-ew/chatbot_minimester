@@ -4,17 +4,33 @@ applications:
       phases:
         preBuild:
           commands:
+            - echo "|-o-| Starting Pre-build Phase |-o-|"
             - nvm install 16.14.2
             - nvm use 16.14.2
+            - echo "|-o-| Node Version |-o-|"
+            - node --version
+            - echo "|-o-| Current Directory Before CD |-o-|"
             - pwd
-            - cd apps/web # Navigate to the web app directory
-            - echo "|-o-| Listing current directory |-o-|"
+            - echo "|-o-| Listing Root Directory |-o-|"
             - ls -la
+            - cd apps/web # Navigate to the web app directory
+            - echo "|-o-| Current Directory After CD |-o-|"
+            - pwd
+            - echo "|-o-| Listing Web App Directory |-o-|"
+            - ls -la
+            - echo "|-o-| Installing Dependencies |-o-|"
+            - npx pnpm install
         build:
           commands:
+            - echo "|-o-| Starting Build Phase |-o-|"
             - npx turbo run build --filter=web
-            - echo "|-o-| Listing build output directory |-o-|"
-            - ls -la apps/web/.next
+            - echo "|-o-| Build Command Completed |-o-|"
+            - echo "|-o-| Current Directory After Build |-o-|"
+            - pwd
+            - echo "|-o-| Listing Web App Directory After Build |-o-|"
+            - ls -la
+            - echo "|-o-| Listing Build Output Directory |-o-|"
+            - ls -la .next
       artifacts:
         baseDirectory: apps/web/.next
         files:
