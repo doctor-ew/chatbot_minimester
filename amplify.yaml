@@ -19,3 +19,4 @@ applications:
           - node_modules/**/*
       buildPath: /
     appRoot: apps/web
+
