@@ -1,9 +1,10 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_POCKET_MORTY_QUERY } from '../../../lib/graphqlQueries';
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
+import Image from 'next/image';
 
 // Define the Morty type
 interface Morty {
@@ -20,7 +21,7 @@ const apolloClient = new ApolloClient({
     cache: new InMemoryCache(),
 });
 
-const MortyPage = () => {
+const MortyPage: FC = () => {
     const pathname = usePathname();
     const id = parseInt(pathname.split('/').pop() as string, 10);
     const [morty, setMorty] = useState<Morty | null>(null);
@@ -55,10 +56,18 @@ const MortyPage = () => {
             </div>
 
             <div className="images-and-info">
-                <img src={`https://pocketmortys.net/media/com_pocketmortys/assets/${morty.assetid}Front.png`}
-                     alt={`${morty.name} Front`} />
-                <img src={`https://pocketmortys.net/media/com_pocketmortys/assets/${morty.assetid}Back.png`}
-                     alt={`${morty.name} Back`} />
+                <Image src={`https://pocketmortys.net/media/com_pocketmortys/assets/${morty.assetid}Front.png`}
+                       alt={`${morty.name} Front`}
+                       width={500} // Adjust the width as needed
+                       height={300} // Adjust the height as needed
+                       unoptimized // Use this if your images are hosted externally
+                />
+                <Image src={`https://pocketmortys.net/media/com_pocketmortys/assets/${morty.assetid}Back.png`}
+                       alt={`${morty.name} Back`}
+                       width={500} // Adjust the width as needed
+                       height={300} // Adjust the height as needed
+                       unoptimized // Use this if your images are hosted externally
+                />
                 {/* Info grid */}
             </div>
         </div>
