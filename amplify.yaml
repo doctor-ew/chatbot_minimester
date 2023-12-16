@@ -6,9 +6,10 @@ applications:
           commands:
             - nvm install 16.14.2
             - nvm use 16.14.2
-            - cd ../.. # Navigate to the root directory
-            - npx pnpm install # Install dependencies at root
-            - cd apps/web # Navigate back to the web app
+            - pwd
+            - cd apps/web # Navigate to the web app directory
+            - echo "|-o-| Listing current directory |-o-|"
+            - ls -la
         build:
           commands:
             - npx turbo run build --filter=web
