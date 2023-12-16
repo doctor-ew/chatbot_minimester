@@ -12,6 +12,8 @@ applications:
         build:
           commands:
             - npx turbo run build --filter=web
+            - echo "|-o-| Listing build output directory |-o-|"
+            - ls -la apps/web/.next
       artifacts:
         baseDirectory: apps/web/.next
         files:
